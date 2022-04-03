@@ -14,7 +14,7 @@ namespace AppTodo.Core.Entities
   {
     public Guid Id { get; private set; }
 
-    protected EntityBase()
+    public EntityBase()
     {
       Id = Guid.NewGuid();
     }
