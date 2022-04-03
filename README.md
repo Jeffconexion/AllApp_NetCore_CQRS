@@ -1,4 +1,4 @@
-<h1 align="center">All App</h1>
+<h1 align="center">App To Do</h1>
 <p align="center"><i>Repository for versioning and project documentation used during the create Api.</i></p>
 
 ##  About this project
