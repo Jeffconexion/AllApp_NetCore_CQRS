@@ -19,4 +19,12 @@
     </PackageReference>
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="CommandTests\" />
+    <Folder Include="EntityTests\" />
+    <Folder Include="HandlerTests\" />
+    <Folder Include="Repositories\" />
+    <Folder Include="QueryTests\" />
+  </ItemGroup>
+
 </Project>
