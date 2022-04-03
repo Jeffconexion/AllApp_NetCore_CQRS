@@ -2,6 +2,12 @@
 
 namespace AppTodo.Core.Entities
 {
+  /// <summary>
+  /// @author: Jefferson Santos
+  /// @Data  : 03/04/2022
+  /// 
+  /// TodoItem is a new task to create.
+  /// </summary>
   public class TodoItem : EntityBase
   {
     public string Title { get; private set; }
@@ -17,16 +23,26 @@ namespace AppTodo.Core.Entities
       User = user;
     }
 
+    /// <summary>
+    /// Set with done my task
+    /// </summary>
     public void MarkAsDone()
     {
       Done = true;
     }
 
+    /// <summary>
+    /// Set with undone my task
+    /// </summary>
     public void MarkAsUndone()
     {
       Done = false;
     }
 
+    /// <summary>
+    /// Update title
+    /// </summary>
+    /// <param name="title">tile for update</param>
     public void UpdateTitle(string title)
     {
       Title = title;
