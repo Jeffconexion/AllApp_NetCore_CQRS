@@ -23,9 +23,9 @@ dotnet run
 
 
 ## References
-[About .Net - .Net Docs](https://docs.microsoft.com/pt-br/dotnet/fundamentals/)
+[About .Net - Microsoft Docs](https://docs.microsoft.com/pt-br/dotnet/fundamentals/)
 
-[About Clean Ararchitectures - architectures Docs](https://docs.microsoft.com/pt-br/dotnet/architecture/modern-web-apps-azure/common-web-application-architectures)
+[About Clean Ararchitectures - Microsoft Docs](https://docs.microsoft.com/pt-br/dotnet/architecture/modern-web-apps-azure/common-web-application-architectures)
 
 
 
