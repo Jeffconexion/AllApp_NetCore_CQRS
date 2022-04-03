@@ -2,6 +2,9 @@
 <p align="center"><i>Repository for versioning and project documentation used during the create Api.</i></p>
 
 ##  About this project
+
+### How it is structure
+
 <p>
 Structure and organize an Api Solution, I use Clean Architecture and CQRS, Design by contract, Model contexts and domains, 
 implment domain notifications. Then I implement repository pattern, login via an external provider.
