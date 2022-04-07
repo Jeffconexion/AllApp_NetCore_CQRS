@@ -6,7 +6,7 @@ namespace AppTodo.Application.Commands.Contracts
   /// @author: Jefferson Santos
   /// @Data  : 07/04/2022
   /// 
-  /// Flunt: version 1.4
+  /// Flunt: version 1.5
   /// All commands I force to hava a contract with ICommand.
   /// Where I validate values.
   /// </summary>
