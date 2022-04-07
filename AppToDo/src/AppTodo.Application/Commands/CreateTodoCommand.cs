@@ -30,7 +30,7 @@ namespace AppTodo.Application.Commands
     }
 
     /// <summary>
-    /// Libary flunt for validation
+    /// Library flunt for validation
     /// </summary>
     public void Validate()
     {
