@@ -9,7 +9,7 @@ namespace AppTodo.Application.Commands
   /// @author: Jefferson Santos
   /// @Data  : 07/04/2022
   /// 
-  /// CreateTodoCommand is similar a viewModel or a DTO.
+  /// Class command is similar a viewModel or Dtos
   /// It goes bind with date from user.
   /// </summary>
   public class CreateTodoCommand : Notifiable, ICommand

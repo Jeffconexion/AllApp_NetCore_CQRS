@@ -6,6 +6,7 @@ namespace AppTodo.Application.Commands
   /// @author: Jefferson Santos
   /// @Data  : 07/04/2022
   /// 
+  /// Class command is similar a viewModel or Dtos
   /// Generic Class to return a message to use.
   /// </summary>
   public class GenericCommandResult : ICommandResult
