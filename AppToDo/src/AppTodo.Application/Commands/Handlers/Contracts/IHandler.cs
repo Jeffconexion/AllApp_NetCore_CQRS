@@ -1,4 +1,5 @@
-﻿using AppTodo.Application.Commands.Contracts;
+﻿using System.Threading.Tasks;
+using AppTodo.Application.Commands.Contracts;
 
 namespace AppTodo.Application.Commands.Handlers.Contracts
 {
@@ -16,7 +17,7 @@ namespace AppTodo.Application.Commands.Handlers.Contracts
     /// </summary>
     /// <param name="command">object type of ICommand</param>
     /// <returns></returns>
-    ICommandResult Handle(T command);
+    Task<ICommandResult> Handle(T command);
 
   }
 }
