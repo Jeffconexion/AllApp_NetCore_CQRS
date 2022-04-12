@@ -27,6 +27,9 @@ namespace AppTodo.Application.Commands
       User = user;
     }
 
+    /// <summary>
+    /// Library flunt for validation
+    /// </summary>
     public void Validate()
     {
       AddNotifications(

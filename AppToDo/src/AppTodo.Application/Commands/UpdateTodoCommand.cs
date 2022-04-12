@@ -7,23 +7,25 @@ namespace AppTodo.Application.Commands
 {
   /// <summary>
   /// @author: Jefferson Santos
-  /// @Data  : 09/04/2022
+  /// @Data  : 11/04/2022
   /// 
   /// Class command is similar a viewModel or Dtos
-  /// Make a task as done.
+  /// update task.
   /// </summary>
-  public class MarkTodoAsDoneCommand : Notifiable, ICommand
+  public class UpdateTodoCommand : Notifiable, ICommand
   {
+
     public Guid Id { get; set; }
+    public string Title { get; set; }
     public string User { get; set; }
 
-    public MarkTodoAsDoneCommand()
+    public UpdateTodoCommand()
     {
     }
-
-    public MarkTodoAsDoneCommand(Guid id, string user)
+    public UpdateTodoCommand(Guid id, string title, string user)
     {
       Id = id;
+      Title = title;
       User = user;
     }
 
@@ -34,9 +36,10 @@ namespace AppTodo.Application.Commands
     {
       AddNotifications(
         new Contract()
-            .Requires()
-            .HasMinLen(User, 6, "User", "Usuário inválido!")
-        );
+        .Requires()
+        .HasMinLen(Title, 3, "Title", "Por favor, descreva melhor esta tarefa!")
+        .HasMinLen(User, 6, "User", "Usuário inválido!")
+      );
     }
   }
 }
