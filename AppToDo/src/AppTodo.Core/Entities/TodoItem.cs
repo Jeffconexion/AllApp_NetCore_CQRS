@@ -15,10 +15,10 @@ namespace AppTodo.Core.Entities
     public DateTime Date { get; private set; }
     public string User { get; private set; } //external user from google.
 
-    public TodoItem(string title, bool done, DateTime date, string user)
+    public TodoItem(string title, string user, DateTime date)
     {
       Title = title;
-      Done = done;
+      Done = false;
       Date = date;
       User = user;
     }

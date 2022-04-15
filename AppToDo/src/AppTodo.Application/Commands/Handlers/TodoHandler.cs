@@ -1,7 +1,7 @@
-﻿using System;
-using System.Threading.Tasks;
+﻿using System.Threading.Tasks;
 using AppTodo.Application.Commands.Contracts;
 using AppTodo.Application.Commands.Handlers.Contracts;
+using AppTodo.Core.Entities;
 using AppTodo.Core.IRepositories;
 using Flunt.Notifications;
 
@@ -24,7 +24,15 @@ namespace AppTodo.Application.Commands.Handlers
 
     public async Task<ICommandResult> Handle(CreateTodoCommand command)
     {
-      throw new NotImplementedException();
+      command.Validate();
+      if (command.Invalid)
+        return new GenericCommandResult(false, "Ops, parece que sua tarefa está errada!", command.Notifications);
+
+      TodoItem todo = new TodoItem(command.Title, command.User, command.Date);
+
+      await _repository.Create(todo);
+
+      return new GenericCommandResult(true, "Tarefa Salva", todo);
     }
   }
 }
