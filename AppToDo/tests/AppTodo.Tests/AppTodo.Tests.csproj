@@ -21,13 +21,13 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="CommandTests\" />
     <Folder Include="HandlerTests\" />
     <Folder Include="Repositories\" />
     <Folder Include="QueryTests\" />
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\..\src\AppTodo.Application\AppTodo.Application.csproj" />
     <ProjectReference Include="..\..\src\AppTodo.Core\AppTodo.Core.csproj" />
   </ItemGroup>
 
