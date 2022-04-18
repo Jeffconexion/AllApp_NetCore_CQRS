@@ -11,7 +11,7 @@ namespace AppTodo.Tests.EntityTests.TodoItemTests
   /// 
   /// Test if the type object
   /// </summary>
-  public class TodoItemTests
+  public class ObjectTypeTest
   {
     [Fact(DisplayName = "Check if object your type is TodoItem.")]
     [Trait("TodoItem", "To do many tests in entity.")]
