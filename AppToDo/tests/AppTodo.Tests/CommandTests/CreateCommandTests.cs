@@ -3,7 +3,7 @@ using AppTodo.Application.Commands;
 using FluentAssertions;
 using Xunit;
 
-namespace AppTodo.Tests.CommandTests.CreateTodoCommandTests
+namespace AppTodo.Tests.CommandTests
 {
   /// <summary>
   /// @author: Jefferson Santos
@@ -13,6 +13,29 @@ namespace AppTodo.Tests.CommandTests.CreateTodoCommandTests
   /// </summary>
   public class CreateCommandTests
   {
+
+    [Fact(DisplayName = "Check all properties.")]
+    [Trait("Commands", "To do many tests with command.")]
+    public void CreateTodo_Command_CheckNotEmptyProperties()
+    {
+      // arrange
+      CreateTodoCommand command = new CreateTodoCommand("Teste", "Carlos", DateTime.Now);
+
+      //assert
+      command.Title.Should().NotBeNullOrWhiteSpace();
+    }
+
+    [Fact(DisplayName = "Check all properties.")]
+    [Trait("Commands", "To do many tests with command.")]
+    public void CreateTodo_Command_CheckIsEmptyProperties()
+    {
+      // arrange
+      CreateTodoCommand command = new CreateTodoCommand(" ", " ", DateTime.Now);
+
+      //assert
+      command.Title.Should().BeNullOrWhiteSpace();
+    }
+
     [Fact(DisplayName = "Check if command is invalid.")]
     [Trait("Commands", "To do many tests with command.")]
     public void CreateTodo_Command_Invalid()
