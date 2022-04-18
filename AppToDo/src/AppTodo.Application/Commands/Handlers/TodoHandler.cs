@@ -25,6 +25,7 @@ namespace AppTodo.Application.Commands.Handlers
     public async Task<ICommandResult> Handle(CreateTodoCommand command)
     {
       command.Validate();
+
       if (command.Invalid)
         return new GenericCommandResult(false, "Ops, parece que sua tarefa está errada!", command.Notifications);
 
