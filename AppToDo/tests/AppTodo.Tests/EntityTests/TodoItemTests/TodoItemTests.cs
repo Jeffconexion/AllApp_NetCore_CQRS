@@ -6,6 +6,12 @@ using Xunit;
 
 namespace AppTodo.Tests.EntityTests.TodoItemTests
 {
+  /// <summary>
+  /// @author: Jefferson Santos
+  /// @Data  : 18/04/2022
+  /// 
+  /// Test method and properties.
+  /// </summary>
   public class TodoItemTests
   {
     [Fact(DisplayName = "Check if Done is true")]
