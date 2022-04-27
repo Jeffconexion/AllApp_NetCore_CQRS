@@ -8,33 +8,35 @@ namespace AppTodo.Tests.CommandTests
 {
   /// <summary>
   /// @author: Jefferson Santos
-  /// @Data  : 07/04/2022
+  /// @Data  : 27/04/2022
   /// 
-  /// Tests my command CreateTodoCommandTests.
+  /// Tests my command MarkTodoAsDoneCommandTests.
   /// </summary>
-  public class CreateCommandTests
+  public class MarkTodoAsDoneCommandTests
   {
-
     [Fact(DisplayName = "Check all properties.")]
     [Trait("Commands", "To do many tests with command.")]
-    public void CreateTodo_Command_CheckNotEmptyProperties()
+    public void CreateMarkTodo_Command_CheckNotEmptyProperties()
     {
       // arrange
-      CreateTodoCommand command = new CreateTodoCommand("Teste", "Carlos", DateTime.Now);
+      var guid = Guid.NewGuid();
+      MarkTodoAsDoneCommand command = new MarkTodoAsDoneCommand(guid, "Carlos");
 
       //assert
-      command.Title.Should().NotBeNullOrWhiteSpace();
+      command.Id.Should().NotBeEmpty().And.Be(guid);
+      command.User.Should().NotBeNullOrEmpty().And.Be("Carlos");
     }
 
-    [Fact(DisplayName = "Check all properties.")]
+    [Fact(DisplayName = "Check all properties is empty.")]
     [Trait("Commands", "To do many tests with command.")]
-    public void CreateTodo_Command_CheckIsEmptyProperties()
+    public void CreateMarkTodo_Command_CheckIsEmptyProperties()
     {
-      // arrange
-      CreateTodoCommand command = new CreateTodoCommand(" ", " ", DateTime.Now);
+      // arrange      
+      MarkTodoAsDoneCommand command = new MarkTodoAsDoneCommand();
 
       //assert
-      command.Title.Should().BeNullOrWhiteSpace();
+      command.Id.Should().BeEmpty();
+      command.User.Should().BeNullOrWhiteSpace();
     }
 
     [Fact(DisplayName = "Check if command is invalid.")]
@@ -42,7 +44,7 @@ namespace AppTodo.Tests.CommandTests
     public void CreateTodo_Command_Invalid()
     {
       // arrange
-      CreateTodoCommand command = new CreateTodoCommand("", "", DateTime.Now);
+      MarkTodoAsDoneCommand command = new MarkTodoAsDoneCommand(Guid.Empty, "");
 
       //act
       command.Validate();
@@ -57,7 +59,7 @@ namespace AppTodo.Tests.CommandTests
     public void CreateTodo_Command_valid()
     {
       // arrange
-      CreateTodoCommand command = new CreateTodoCommand("Teste", "Carlos", DateTime.Now);
+      MarkTodoAsDoneCommand command = new MarkTodoAsDoneCommand(Guid.NewGuid(), "Carlos");
 
       //act
       command.Validate();
@@ -72,14 +74,15 @@ namespace AppTodo.Tests.CommandTests
     public void CreateTodo_Command_InvalidNotificationsOne()
     {
       // arrange
-      CreateTodoCommand command = new CreateTodoCommand("", "", DateTime.Now);
+      MarkTodoAsDoneCommand command = new MarkTodoAsDoneCommand(Guid.Empty, "");
 
       //act
       command.Validate();
 
       //assert
-      command.Notifications.Should().NotBeEmpty().And.HaveCount(2);
-
+      command.Id.Should().Be(Guid.Empty);
+      command.Notifications.Should().NotBeEmpty().And.HaveCount(1);
+      
     }
 
     [Fact(DisplayName = "Check if command is invalid.")]
@@ -87,35 +90,19 @@ namespace AppTodo.Tests.CommandTests
     public void CreateTodo_Command_InvalidNotificationsTwo()
     {
       // arrange
-      CreateTodoCommand command = new CreateTodoCommand("", "Carlos", DateTime.Now);
+      MarkTodoAsDoneCommand command = new MarkTodoAsDoneCommand(Guid.Empty, " ");
 
       //act
       command.Validate();
-      var mensagem = command.Notifications.Select(a => a.Message).First();
+      var message = command.Notifications.Select(u => u.Message).First();
       var propriedade = command.Notifications.Select(a => a.Property).First();
 
-      //assert
-      mensagem.Should().NotBeNullOrEmpty().And.Contain("Por favor, descreva melhor esta tarefa!").And.BeOfType<string>();
-      propriedade.Should().NotBeNullOrEmpty().And.Contain("Title").And.BeOfType<string>();
-
-
-    }
-
-    [Fact(DisplayName = "Check if command is invalid.")]
-    [Trait("Commands", "To do many tests with command.")]
-    public void CreateTodo_Command_InvalidNotificationsThree()
-    {
-      // arrange
-      CreateTodoCommand command = new CreateTodoCommand("Teste", "", DateTime.Now);
-
-      //act
-      command.Validate();
-      var mensagem = command.Notifications.Select(a => a.Message).First();
-      var propriedade = command.Notifications.Select(a => a.Property).First();
 
       //assert
-      mensagem.Should().NotBeNullOrEmpty().And.Contain("Usuário inválido!").And.BeOfType<string>();
+      command.Id.Should().Be(Guid.Empty);
+      message.Should().NotBeNullOrEmpty().And.Contain("Usuário inválido").And.BeOfType<string>();
       propriedade.Should().NotBeNullOrEmpty().And.Contain("User").And.BeOfType<string>();
+
 
     }
 
@@ -124,14 +111,16 @@ namespace AppTodo.Tests.CommandTests
     public void CreateTodo_Command_ValidNotifications()
     {
       // arrange
-      CreateTodoCommand command = new CreateTodoCommand("Teste", "Carlos", DateTime.Now);
+      MarkTodoAsDoneCommand command = new MarkTodoAsDoneCommand(Guid.NewGuid(), "Carlos");
 
       //act
       command.Validate();
 
       //assert
       command.Notifications.Should().BeNullOrEmpty().And.HaveCount(0);
+      command.Valid.Should().BeTrue().And.Be(true);
 
     }
+
   }
 }
