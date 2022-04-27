@@ -1,8 +1,8 @@
 ﻿using System;
+using System.Linq;
 using AppTodo.Application.Commands;
 using FluentAssertions;
 using Xunit;
-using System.Linq;
 
 namespace AppTodo.Tests.CommandTests
 {
