@@ -1,12 +1,12 @@
 ﻿using System;
 using AppTodo.Application.Commands;
-using AppTodo.Application.Commands.Handlers;
+using AppTodo.Application.Commands.Handlers.CreateTodo;
 using AppTodo.Core.IRepositories;
 using FluentAssertions;
 using Moq;
 using Xunit;
 
-namespace AppTodo.Tests.HandlerTests
+namespace AppTodo.Tests.HandlerTests.CreateTodoTests
 {
   /// <summary>
   /// @author: Jefferson Santos
@@ -14,7 +14,7 @@ namespace AppTodo.Tests.HandlerTests
   /// 
   /// Tests my handler TodoHandlerTests.
   /// </summary>
-  public class TodoHandlerTests
+  public class CreateTodoCommandHandlerTests
   {
 
     [Fact(DisplayName = "Check Handler is valid.")]
@@ -22,12 +22,12 @@ namespace AppTodo.Tests.HandlerTests
     public void Handler_CreateTaskIsValid_ReturnTrue()
     {
       //arrange
-      CreateTodoCommand command = new CreateTodoCommand("Teste", "Carlos", DateTime.Now);
+      var command = new CreateTodoCommand("Teste", "Carlos", DateTime.Now);
       var repository = new Mock<ITodoRepository>();
-      TodoHandler handler = new TodoHandler(repository.Object);
+      var handler = new CreateTodoCommandHandler(repository.Object);
 
       //act
-      GenericCommandResult handlerResult = handler.Handle(command).Result.As<GenericCommandResult>();
+      var handlerResult = handler.Handle(command).Result.As<GenericCommandResult>();
 
       //assert
       handlerResult.Success.Should().BeTrue().And.Be(true).And.NotBe(false);
@@ -38,16 +38,16 @@ namespace AppTodo.Tests.HandlerTests
     public void Handler_CreateTaskIsInvalid_ReturnFalse()
     {
       //arrange
-      CreateTodoCommand command = new CreateTodoCommand("", "", DateTime.Now);
+      var command = new CreateTodoCommand("", "", DateTime.Now);
       var repository = new Mock<ITodoRepository>();
-      TodoHandler handler = new TodoHandler(repository.Object);
+      var handler = new CreateTodoCommandHandler(repository.Object);
 
       //act
-      GenericCommandResult handlerResult = handler.Handle(command).Result.As<GenericCommandResult>();
+      var handlerResult = handler.Handle(command).Result.As<GenericCommandResult>();
 
       //assert
       handlerResult.Success.Should().BeFalse().And.Be(false).And.NotBe(true);
-    }  
+    }
 
   }
 }

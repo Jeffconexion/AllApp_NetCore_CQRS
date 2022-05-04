@@ -1,8 +1,5 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using AppTodo.Application.Commands;
 using FluentAssertions;
 using Xunit;
@@ -80,7 +77,7 @@ namespace AppTodo.Tests.CommandTests
     public void CreateTodo_Command_InvalidNotificationsOne()
     {
       // arrange
-      UpdateTodoCommand command = new UpdateTodoCommand(Guid.Empty, "","");
+      UpdateTodoCommand command = new UpdateTodoCommand(Guid.Empty, "", "");
 
       //act
       command.Validate();
@@ -96,7 +93,7 @@ namespace AppTodo.Tests.CommandTests
     public void CreateTodo_Command_InvalidNotificationsTwo()
     {
       // arrange
-      UpdateTodoCommand command = new UpdateTodoCommand(Guid.Empty, " ","");
+      UpdateTodoCommand command = new UpdateTodoCommand(Guid.Empty, " ", "");
 
       //act
       command.Validate();

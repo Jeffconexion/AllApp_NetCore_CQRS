@@ -3,7 +3,7 @@ using AppTodo.Application.Commands.Contracts;
 using Flunt.Notifications;
 using Flunt.Validations;
 
-namespace AppTodo.Application.Commands
+namespace AppTodo.Application.Commands.Handlers.CreateTodo
 {
   /// <summary>
   /// @author: Jefferson Santos
