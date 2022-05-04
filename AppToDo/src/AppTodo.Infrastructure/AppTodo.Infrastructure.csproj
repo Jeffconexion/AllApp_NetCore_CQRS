@@ -1,7 +1,17 @@
-<Project Sdk="Microsoft.NET.Sdk">
+﻿<!--
+This is where integrations with infrastructure components are implemented
+or other systems such as databases, external APIs, legacy systems,
+cloud services.
 
+ Main components are:
+- Implementation of Repositories.
+- Integration services with other systems.
+- Cloud integration services.
+- Integration services with message brokers.
+- Service-related DTOs
+-->
+<Project Sdk="Microsoft.NET.Sdk">
   <PropertyGroup>
     <TargetFramework>net5.0</TargetFramework>
   </PropertyGroup>
-
 </Project>

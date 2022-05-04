@@ -1,11 +1,15 @@
-<Project Sdk="Microsoft.NET.Sdk">
+<!--
+This is where the unit and mutant tests are placed.
 
+ Main components are:
+- unit test.
+- Mutation Test.
+-->
+<Project Sdk="Microsoft.NET.Sdk">
   <PropertyGroup>
     <TargetFramework>net5.0</TargetFramework>
-
     <IsPackable>false</IsPackable>
   </PropertyGroup>
-
   <ItemGroup>
     <PackageReference Include="FluentAssertions" Version="6.6.0" />
     <PackageReference Include="Microsoft.NET.Test.Sdk" Version="16.9.4" />
@@ -20,15 +24,12 @@
       <PrivateAssets>all</PrivateAssets>
     </PackageReference>
   </ItemGroup>
-
   <ItemGroup>
     <Folder Include="Repositories\" />
     <Folder Include="QueryTests\" />
   </ItemGroup>
-
   <ItemGroup>
     <ProjectReference Include="..\..\src\AppTodo.Application\AppTodo.Application.csproj" />
     <ProjectReference Include="..\..\src\AppTodo.Core\AppTodo.Core.csproj" />
   </ItemGroup>
-
 </Project>

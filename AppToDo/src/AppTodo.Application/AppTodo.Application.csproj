@@ -1,16 +1,22 @@
-<Project Sdk="Microsoft.NET.Sdk">
+﻿<!--
+This is where the application use cases are implemented,
+involving the data models that the application receives from the user/outside world.
 
+  Main components are:
+- Application services.
+- Commands and Queries.
+- Input and output models.
+- Event Subscribers/Consumers.
+-->
+<Project Sdk="Microsoft.NET.Sdk">
   <PropertyGroup>
     <TargetFramework>net5.0</TargetFramework>
   </PropertyGroup>
-
   <ItemGroup>
     <PackageReference Include="Flunt" Version="1.0.5" />
     <PackageReference Include="NETStandard.Library" Version="2.0.3" />
   </ItemGroup>
-
   <ItemGroup>
     <ProjectReference Include="..\AppTodo.Core\AppTodo.Core.csproj" />
   </ItemGroup>
-
 </Project>

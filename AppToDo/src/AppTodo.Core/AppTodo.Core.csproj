@@ -1,7 +1,17 @@
-<Project Sdk="Microsoft.NET.Sdk">
+﻿<!--
+Known as Domain
+It is the central layer of the application, where it should not have dependencies on other projects.
 
+ Main components are:
+- Entities.
+- ValueObjects.
+- Repositories.
+- Enums.
+- Services domain
+- Events domain
+-->
+<Project Sdk="Microsoft.NET.Sdk">
   <PropertyGroup>
     <TargetFramework>net5.0</TargetFramework>
   </PropertyGroup>
-
 </Project>
