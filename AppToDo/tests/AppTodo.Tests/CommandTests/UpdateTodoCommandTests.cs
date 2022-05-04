@@ -112,6 +112,25 @@ namespace AppTodo.Tests.CommandTests
 
     }
 
+    [Fact(DisplayName = "Check if command is invalid.")]
+    [Trait("Commands", "To do many tests with command.")]
+    public void CreateTodo_Command_InvalidNotificationsThree()
+    {
+      // arrange
+      UpdateTodoCommand command = new UpdateTodoCommand(Guid.Empty, "Teste", "");
+
+      //act
+      command.Validate();
+      var message = command.Notifications.Select(u => u.Message).First();
+      var propriedade = command.Notifications.Select(a => a.Property).First();
+
+      //assert
+      command.Id.Should().Be(Guid.Empty);
+      message.Should().NotBeNullOrEmpty().And.Contain("Usuário inválido!").And.BeOfType<string>();
+      propriedade.Should().NotBeNullOrEmpty().And.Contain("User").And.BeOfType<string>();
+
+    }
+
     [Fact(DisplayName = "Check if command is valid.")]
     [Trait("Commands", "To do many tests with command.")]
     public void CreateTodo_Command_ValidNotifications()

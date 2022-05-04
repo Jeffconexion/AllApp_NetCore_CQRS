@@ -32,5 +32,7 @@ namespace AppTodo.Core.IRepositories
     /// <param name="Id">Id of the object.</param>
     /// <returns></returns>
     Task Delete(Guid Id);
+
+    Task<TodoItem> GetById(Guid Id, String User);
   }
 }
