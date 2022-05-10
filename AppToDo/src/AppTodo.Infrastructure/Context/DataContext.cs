@@ -1,4 +1,5 @@
 ﻿using AppTodo.Core.Entities;
+using AppTodo.Infrastructure.Mappings;
 using Microsoft.EntityFrameworkCore;
 
 namespace AppTodo.Infrastructure.Context
@@ -16,6 +17,11 @@ namespace AppTodo.Infrastructure.Context
 
     public DataContext(DbContextOptions<DataContext> options) : base(options)
     {
+    }
+
+    protected override void OnModelCreating(ModelBuilder modelBuilder)
+    {
+      modelBuilder.ApplyConfiguration(new TodoItemMap());
     }
   }
 }
