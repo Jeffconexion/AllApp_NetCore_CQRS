@@ -16,4 +16,7 @@ application/api. These systems can be front-end, desktop or even other apis.
   <ItemGroup>
     <Folder Include="Controllers\" />
   </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\AppTodo.Infrastructure\AppTodo.Infrastructure.csproj" />
+  </ItemGroup>
 </Project>
