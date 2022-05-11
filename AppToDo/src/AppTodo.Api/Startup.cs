@@ -1,3 +1,4 @@
+﻿using AppTodo.Infrastructure.Context;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
@@ -21,6 +22,7 @@ namespace AppTodo.Api
     {
 
       services.AddControllers();
+      services.AddDbContext<DataContext>
       services.AddSwaggerGen(c =>
       {
         c.SwaggerDoc("v1", new OpenApiInfo { Title = "AppTodo.Api", Version = "v1" });
