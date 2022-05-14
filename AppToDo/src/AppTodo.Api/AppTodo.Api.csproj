@@ -14,9 +14,6 @@ application/api. These systems can be front-end, desktop or even other apis.
     <PackageReference Include="Swashbuckle.AspNetCore" Version="5.6.3" />
   </ItemGroup>
   <ItemGroup>
-    <Folder Include="Controllers\" />
-  </ItemGroup>
-  <ItemGroup>
     <ProjectReference Include="..\AppTodo.Application\AppTodo.Application.csproj" />
     <ProjectReference Include="..\AppTodo.Infrastructure\AppTodo.Infrastructure.csproj" />
   </ItemGroup>
