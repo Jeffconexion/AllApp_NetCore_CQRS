@@ -34,7 +34,7 @@ namespace AppTodo.Application.Commands.Handlers.MarkTodoAsUndone
         return new GenericCommandResult(false, "Ops, parece que sua tarefa está errada!", command.Notifications);
 
       //recover the todoItem
-      TodoItem todo = await _repository.GetById(command.Id, command.User);
+      TodoItem todo = await _repository.GetByIdAndUser(command.Id, command.User);
 
       //change title
       todo.MarkAsUndone();

@@ -1,4 +1,12 @@
-﻿using AppTodo.Infrastructure.Context;
+﻿using AppTodo.Application.Commands;
+using AppTodo.Application.Commands.Handlers.Contracts;
+using AppTodo.Application.Commands.Handlers.CreateTodo;
+using AppTodo.Application.Commands.Handlers.MarkTodoAsDone;
+using AppTodo.Application.Commands.Handlers.MarkTodoAsUndone;
+using AppTodo.Application.Commands.Handlers.UpdateTodo;
+using AppTodo.Core.IRepositories;
+using AppTodo.Infrastructure.Context;
+using AppTodo.Infrastructure.Repositories;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.EntityFrameworkCore;
@@ -29,10 +37,16 @@ namespace AppTodo.Api
 
       services.AddControllers();
       services.AddDbContext<DataContext>(opt => opt.UseInMemoryDatabase("Database"));//the same addScoped, but specify to database.
-      //services.AddDbContext<DataContext>(opt =>
-      //{
-      //  opt.UseSqlServer(Configuration.GetConnectionString("DefaultConnection"));
-      //});
+                                                                                     //services.AddDbContext<DataContext>(opt =>
+                                                                                     //{
+                                                                                     //  opt.UseSqlServer(Configuration.GetConnectionString("DefaultConnection"));
+                                                                                     //});
+
+      services.AddTransient<ITodoRepository, TodoRepository>();
+      services.AddTransient<IHandler<CreateTodoCommand>, CreateTodoCommandHandler>();
+      services.AddTransient<IHandler<MarkTodoAsDoneCommand>, MarkTodoAsDoneCommandHandler>();
+      services.AddTransient<IHandler<MarkTodoAsUndoneCommand>, MarkTodoAsUndoneCommandHandler>();
+      services.AddTransient<IHandler<UpdateTodoCommand>, UpdateTodoCommandHandler>();
 
       services.AddSwaggerGen(c =>
       {

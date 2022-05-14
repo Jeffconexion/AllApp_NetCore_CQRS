@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Threading.Tasks;
 using AppTodo.Core.Entities;
 
@@ -27,18 +28,39 @@ namespace AppTodo.Core.IRepositories
     Task Update(TodoItem todo);
 
     /// <summary>
-    /// Delete task
+    /// Get all tasks.
     /// </summary>
-    /// <param name="Id">Id of the object.</param>
+    /// <param name="email"></param>
     /// <returns></returns>
-    Task Delete(Guid Id);
+    Task<IEnumerable<TodoItem>> GetAll(string user);
 
     /// <summary>
-    /// Get a register.
+    /// Get all tasks are with done.
     /// </summary>
-    /// <param name="Id"></param>
-    /// <param name="User"></param>
+    /// <param name="email"></param>
     /// <returns></returns>
-    Task<TodoItem> GetById(Guid Id, String User);
+    Task<IEnumerable<TodoItem>> GetAllDone(string user);
+
+    /// <summary>
+    /// Get all tasks are with undone.
+    /// </summary>
+    /// <param name="email"></param>
+    /// <returns></returns>
+    Task<IEnumerable<TodoItem>> GetAllUndone(string emuserail);
+
+    /// <summary>
+    /// Get all tasks are betwee period.
+    /// </summary>
+    /// <param name="email"></param>
+    /// <returns></returns>
+    Task<IEnumerable<TodoItem>> GetByPeriod(string user, DateTime date, bool done);
+
+    /// <summary>
+    /// Get specify id and user.
+    /// </summary>
+    /// <param name="id"></param>
+    /// <param name="user"></param>
+    /// <returns></returns>
+    Task<TodoItem> GetByIdAndUser(Guid id, string user);
   }
 }
