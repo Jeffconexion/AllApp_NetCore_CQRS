@@ -12,7 +12,6 @@ namespace AppTodo.Core.Queries
   /// </summary>
   public static class TodoQueries
   {
-
     /// <summary>
     /// Get all tasks.
     /// </summary>
