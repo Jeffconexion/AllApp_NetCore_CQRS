@@ -1,4 +1,7 @@
-﻿using AppTodo.Application.Commands;
+﻿using System;
+using System.IO;
+using System.Reflection;
+using AppTodo.Application.Commands;
 using AppTodo.Application.Commands.Handlers.Contracts;
 using AppTodo.Application.Commands.Handlers.CreateTodo;
 using AppTodo.Application.Commands.Handlers.MarkTodoAsDone;
@@ -50,7 +53,23 @@ namespace AppTodo.Api
 
       services.AddSwaggerGen(c =>
       {
-        c.SwaggerDoc("v1", new OpenApiInfo { Title = "AppTodo.Api", Version = "v1" });
+        c.SwaggerDoc("v1",
+          new
+          OpenApiInfo
+          {
+            Title = "Demo AppTodo.Api",
+            Version = "v1",
+            Description = "AppTodo.Api is a Project to help you to manager tasks during the day.",
+            Contact = new OpenApiContact()
+            {
+              Name = "Jefferson Santos",
+              Url = new Uri("https://www.linkedin.com/in/jeffsantosti/")
+            }
+          });
+
+        var xmlFile = $"{Assembly.GetExecutingAssembly().GetName().Name}.xml";
+        var xmlPath = Path.Combine(AppContext.BaseDirectory, xmlFile);
+        c.IncludeXmlComments(xmlPath);
       });
     }
 
@@ -60,7 +79,12 @@ namespace AppTodo.Api
       {
         app.UseDeveloperExceptionPage();
         app.UseSwagger();
-        app.UseSwaggerUI(c => c.SwaggerEndpoint("/swagger/v1/swagger.json", "AppTodo.Api v1"));
+        app.UseSwaggerUI(c =>
+        {
+          c.SwaggerEndpoint("/swagger/v1/swagger.json", "V1 - AppTodo.Api");
+          c.RoutePrefix = "swagger";
+
+        });
       }
 
       app.UseHttpsRedirection();
