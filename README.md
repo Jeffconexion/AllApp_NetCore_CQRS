@@ -52,11 +52,11 @@ implment domain notifications. Then I implement repository pattern, login via an
 
 ## Running
 <p>
-    <b>Criar Container</b> docker run --name container_apiTudo -p 8000:80 apptodoapi.
+    <b>Criar Container: </b> docker run --name container_apiTudo -p 8000:80 apptodoapi.
 </p>
 
 <p>
-    <b>Link</b> http://localhost:8000/swagger/Index.html
+    <b>Link: </b> http://localhost:8000/swagger/Index.html
 </p>
 
 ## References
