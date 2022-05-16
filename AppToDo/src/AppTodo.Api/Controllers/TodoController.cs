@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Threading.Tasks;
+using AppTodo.Api.ViewModel;
 using AppTodo.Application.Commands;
 using AppTodo.Application.Commands.Handlers.Contracts;
 using AppTodo.Application.Commands.Handlers.CreateTodo;
@@ -31,9 +32,9 @@ namespace AppTodo.Api.Controllers
     [HttpGet]
     [ProducesResponseType(StatusCodes.Status200OK)]
     [ProducesResponseType(StatusCodes.Status400BadRequest)]
-    public async Task<object> GetAll()
+    public async Task<object> GetAll([FromQuery] PersonViewModel viewmodel)
     {
-      var result = await _todoRepository.GetAll("Jefferson");
+      var result = await _todoRepository.GetAll(viewmodel.Name);
       if (result is null)
         return BadRequest(result);
 
@@ -50,9 +51,9 @@ namespace AppTodo.Api.Controllers
     [HttpGet]
     [ProducesResponseType(StatusCodes.Status200OK)]
     [ProducesResponseType(StatusCodes.Status400BadRequest)]
-    public async Task<object> GetAllDone()
+    public async Task<object> GetAllDone([FromQuery] PersonViewModel viewmodel)
     {
-      var result = await _todoRepository.GetAllDone("Jefferson");
+      var result = await _todoRepository.GetAllDone(viewmodel.Name);
       if (result is null)
         return BadRequest(result);
 
@@ -69,9 +70,9 @@ namespace AppTodo.Api.Controllers
     [HttpGet]
     [ProducesResponseType(StatusCodes.Status200OK)]
     [ProducesResponseType(StatusCodes.Status400BadRequest)]
-    public async Task<object> GetAllUndone()
+    public async Task<object> GetAllUndone([FromQuery] PersonViewModel viewmodel)
     {
-      var result = await _todoRepository.GetAllUndone("Jefferson");
+      var result = await _todoRepository.GetAllUndone(viewmodel.Name);
       if (result is null)
         return BadRequest(result);
 
@@ -88,10 +89,10 @@ namespace AppTodo.Api.Controllers
     [HttpGet]
     [ProducesResponseType(StatusCodes.Status200OK)]
     [ProducesResponseType(StatusCodes.Status400BadRequest)]
-    public async Task<object> GetUndoneForToday()
+    public async Task<object> GetUndoneForToday([FromQuery] PersonViewModel viewmodel)
     {
       var result = await _todoRepository.GetByPeriod(
-        "Jefferson",
+        viewmodel.Name,
         DateTime.Now.Date,
         false
         );
@@ -113,10 +114,10 @@ namespace AppTodo.Api.Controllers
     [HttpGet]
     [ProducesResponseType(StatusCodes.Status200OK)]
     [ProducesResponseType(StatusCodes.Status400BadRequest)]
-    public async Task<object> GetDoneForToday()
+    public async Task<object> GetDoneForToday([FromQuery] PersonViewModel viewmodel)
     {
       var result = await _todoRepository.GetByPeriod(
-        "Jefferson",
+        viewmodel.Name,
         DateTime.Now.Date,
         true
         );
@@ -137,10 +138,10 @@ namespace AppTodo.Api.Controllers
     [HttpGet]
     [ProducesResponseType(StatusCodes.Status200OK)]
     [ProducesResponseType(StatusCodes.Status400BadRequest)]
-    public async Task<object> GetDoneForTomorrow()
+    public async Task<object> GetDoneForTomorrow([FromQuery] PersonViewModel viewmodel)
     {
       var result = await _todoRepository.GetByPeriod(
-        "Jefferson",
+       viewmodel.Name,
         DateTime.Now.Date.AddDays(1),
         true
         );
@@ -161,10 +162,10 @@ namespace AppTodo.Api.Controllers
     [HttpGet]
     [ProducesResponseType(StatusCodes.Status200OK)]
     [ProducesResponseType(StatusCodes.Status400BadRequest)]
-    public async Task<object> GetUndoneForTomorrow()
+    public async Task<object> GetUndoneForTomorrow([FromQuery] PersonViewModel viewmodel)
     {
       var result = await _todoRepository.GetByPeriod(
-        "Jefferson",
+        viewmodel.Name,
         DateTime.Now.Date.AddDays(1),
         false
         );
