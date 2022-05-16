@@ -45,8 +45,19 @@ implment domain notifications. Then I implement repository pattern, login via an
   <img width="48" src="https://static.wikia.nocookie.net/logopedia/images/e/ec/Microsoft_Visual_Studio_2022.svg" alt="vs-logo"/>
 </p>
 
+### Branchs
+<p display="inline-block">
+  <b>branch_simple:</b> No authentication, using memory persistence, simple application.
+</p>
+
 ## Running
-dotnet run
+<p>
+    <b>Criar Container</b> docker run --name container_apiTudo -p 8000:80 apptodoapi.
+</p>
+
+<p>
+    <b>Link</b> http://localhost:8000/swagger/Index.html
+</p>
 
 ## References
 [About .Net - Microsoft Docs](https://docs.microsoft.com/pt-br/dotnet/fundamentals/)
