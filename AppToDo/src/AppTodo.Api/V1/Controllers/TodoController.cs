@@ -1,19 +1,21 @@
 ﻿using System;
 using System.Threading.Tasks;
+using AppTodo.Api.Controllers;
 using AppTodo.Api.ViewModel;
 using AppTodo.Application.Commands;
 using AppTodo.Application.Commands.Handlers.Contracts;
 using AppTodo.Application.Commands.Handlers.CreateTodo;
 using AppTodo.Application.Commands.Handlers.MarkTodoAsDone;
+using AppTodo.Core.Entities;
 using AppTodo.Core.IRepositories;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
-namespace AppTodo.Api.Controllers
+namespace AppTodo.Api.V1.Controllers
 {
-  [ApiController]
-  [Route("v1/todos")]
-  public class TodoController : ControllerBase
+  [ApiVersion("1.0")]
+  [Route("api/v{version:apiVersion}/Todo")]
+  public class TodoController : MainController
   {
     public readonly ITodoRepository _todoRepository;
 
@@ -51,7 +53,7 @@ namespace AppTodo.Api.Controllers
     [HttpGet]
     [ProducesResponseType(StatusCodes.Status200OK)]
     [ProducesResponseType(StatusCodes.Status400BadRequest)]
-    public async Task<object> GetAllDone([FromQuery] PersonViewModel viewmodel)
+    public async Task<ActionResult<TodoItem>> GetAllDone([FromQuery] PersonViewModel viewmodel)
     {
       var result = await _todoRepository.GetAllDone(viewmodel.Name);
       if (result is null)
@@ -70,7 +72,7 @@ namespace AppTodo.Api.Controllers
     [HttpGet]
     [ProducesResponseType(StatusCodes.Status200OK)]
     [ProducesResponseType(StatusCodes.Status400BadRequest)]
-    public async Task<object> GetAllUndone([FromQuery] PersonViewModel viewmodel)
+    public async Task<ActionResult<TodoItem>> GetAllUndone([FromQuery] PersonViewModel viewmodel)
     {
       var result = await _todoRepository.GetAllUndone(viewmodel.Name);
       if (result is null)
@@ -89,7 +91,7 @@ namespace AppTodo.Api.Controllers
     [HttpGet]
     [ProducesResponseType(StatusCodes.Status200OK)]
     [ProducesResponseType(StatusCodes.Status400BadRequest)]
-    public async Task<object> GetUndoneForToday([FromQuery] PersonViewModel viewmodel)
+    public async Task<ActionResult<TodoItem>> GetUndoneForToday([FromQuery] PersonViewModel viewmodel)
     {
       var result = await _todoRepository.GetByPeriod(
         viewmodel.Name,
@@ -114,7 +116,7 @@ namespace AppTodo.Api.Controllers
     [HttpGet]
     [ProducesResponseType(StatusCodes.Status200OK)]
     [ProducesResponseType(StatusCodes.Status400BadRequest)]
-    public async Task<object> GetDoneForToday([FromQuery] PersonViewModel viewmodel)
+    public async Task<ActionResult<TodoItem>> GetDoneForToday([FromQuery] PersonViewModel viewmodel)
     {
       var result = await _todoRepository.GetByPeriod(
         viewmodel.Name,
@@ -138,7 +140,7 @@ namespace AppTodo.Api.Controllers
     [HttpGet]
     [ProducesResponseType(StatusCodes.Status200OK)]
     [ProducesResponseType(StatusCodes.Status400BadRequest)]
-    public async Task<object> GetDoneForTomorrow([FromQuery] PersonViewModel viewmodel)
+    public async Task<ActionResult<TodoItem>> GetDoneForTomorrow([FromQuery] PersonViewModel viewmodel)
     {
       var result = await _todoRepository.GetByPeriod(
        viewmodel.Name,
@@ -162,7 +164,7 @@ namespace AppTodo.Api.Controllers
     [HttpGet]
     [ProducesResponseType(StatusCodes.Status200OK)]
     [ProducesResponseType(StatusCodes.Status400BadRequest)]
-    public async Task<object> GetUndoneForTomorrow([FromQuery] PersonViewModel viewmodel)
+    public async Task<ActionResult<TodoItem>> GetUndoneForTomorrow([FromQuery] PersonViewModel viewmodel)
     {
       var result = await _todoRepository.GetByPeriod(
         viewmodel.Name,
@@ -188,9 +190,9 @@ namespace AppTodo.Api.Controllers
     [HttpPost]
     [ProducesResponseType(StatusCodes.Status200OK)]
     [ProducesResponseType(StatusCodes.Status400BadRequest)]
-    public async Task<object> Create([FromBody] CreateTodoCommand command, [FromServices] IHandler<CreateTodoCommand> handler)
+    public async Task<ActionResult<TodoItem>> Create([FromBody] CreateTodoCommand command, [FromServices] IHandler<CreateTodoCommand> handler)
     {
-      GenericCommandResult result = await handler.Handle(command) as GenericCommandResult;
+      var result = await handler.Handle(command) as GenericCommandResult;
 
       if (result is null)
         return BadRequest(result);
@@ -199,7 +201,7 @@ namespace AppTodo.Api.Controllers
     }
 
     /// <summary>
-    /// Update tasks if there is.
+    /// Update tasks title.
     /// </summary>
     /// <param name="command"></param>
     /// <param name="handler"></param>
@@ -210,9 +212,9 @@ namespace AppTodo.Api.Controllers
     [HttpPut]
     [ProducesResponseType(StatusCodes.Status200OK)]
     [ProducesResponseType(StatusCodes.Status400BadRequest)]
-    public async Task<object> Update([FromBody] UpdateTodoCommand command, [FromServices] IHandler<UpdateTodoCommand> handler)
+    public async Task<ActionResult<TodoItem>> Update([FromBody] UpdateTodoCommand command, [FromServices] IHandler<UpdateTodoCommand> handler)
     {
-      GenericCommandResult result = await handler.Handle(command) as GenericCommandResult;
+      var result = await handler.Handle(command) as GenericCommandResult;
 
       if (result is null)
         return BadRequest(result);
@@ -232,9 +234,9 @@ namespace AppTodo.Api.Controllers
     [HttpPut]
     [ProducesResponseType(StatusCodes.Status200OK)]
     [ProducesResponseType(StatusCodes.Status400BadRequest)]
-    public async Task<object> MarkAsDone([FromBody] MarkTodoAsDoneCommand command, [FromServices] IHandler<MarkTodoAsDoneCommand> handler)
+    public async Task<ActionResult<TodoItem>> MarkAsDone([FromBody] MarkTodoAsDoneCommand command, [FromServices] IHandler<MarkTodoAsDoneCommand> handler)
     {
-      GenericCommandResult result = await handler.Handle(command) as GenericCommandResult;
+      var result = await handler.Handle(command) as GenericCommandResult;
 
       if (result is null)
         return BadRequest(result);
@@ -254,9 +256,9 @@ namespace AppTodo.Api.Controllers
     [HttpPut]
     [ProducesResponseType(StatusCodes.Status200OK)]
     [ProducesResponseType(StatusCodes.Status400BadRequest)]
-    public async Task<object> MarkAsUnDone([FromBody] MarkTodoAsUndoneCommand command, [FromServices] IHandler<MarkTodoAsUndoneCommand> handler)
+    public async Task<ActionResult<TodoItem>> MarkAsUnDone([FromBody] MarkTodoAsUndoneCommand command, [FromServices] IHandler<MarkTodoAsUndoneCommand> handler)
     {
-      GenericCommandResult result = await handler.Handle(command) as GenericCommandResult;
+      var result = await handler.Handle(command) as GenericCommandResult;
 
       if (result is null)
         return BadRequest(result);
