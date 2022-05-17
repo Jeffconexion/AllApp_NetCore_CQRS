@@ -36,7 +36,6 @@ namespace AppTodo.Application.Commands.Handlers.MarkTodoAsUndone
       //recover the todoItem
       TodoItem todo = await _repository.GetByIdAndUser(command.Id, command.User);
 
-      //change title
       todo.MarkAsUndone();
 
       //save in database
