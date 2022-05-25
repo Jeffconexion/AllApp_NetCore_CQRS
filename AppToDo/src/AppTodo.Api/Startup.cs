@@ -24,7 +24,7 @@ namespace AppTodo.Api
 
     public void ConfigureServices(IServiceCollection services)
     {
-      services.AddDependencyInjectionDataBaseConfig();
+      services.AddDependencyInjectionDataBaseConfig(Configuration);
       services.AddApiConfig();
       services.AddSwaggerConfig();
       services.ResolveDependencies();
