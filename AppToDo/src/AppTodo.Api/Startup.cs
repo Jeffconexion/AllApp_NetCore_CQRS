@@ -28,6 +28,7 @@ namespace AppTodo.Api
       services.AddApiConfig();
       services.AddSwaggerConfig();
       services.ResolveDependencies();
+      services.AddConfigFirebase();
     }
 
     public void Configure(IApplicationBuilder app, IWebHostEnvironment env, IApiVersionDescriptionProvider provider)
