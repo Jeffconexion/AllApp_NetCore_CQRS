@@ -1,13 +1,14 @@
 ﻿using System;
+using System.Linq;
 using System.Threading.Tasks;
 using AppTodo.Api.Controllers;
-using AppTodo.Api.ViewModel;
 using AppTodo.Application.Commands;
 using AppTodo.Application.Commands.Handlers.Contracts;
 using AppTodo.Application.Commands.Handlers.CreateTodo;
 using AppTodo.Application.Commands.Handlers.MarkTodoAsDone;
 using AppTodo.Core.Entities;
 using AppTodo.Core.IRepositories;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
@@ -15,6 +16,7 @@ namespace AppTodo.Api.V1.Controllers
 {
   [ApiVersion("1.0")]
   [Route("api/v{version:apiVersion}/Todo")]
+  [Authorize]
   public class TodoController : MainController
   {
     public readonly ITodoRepository _todoRepository;
@@ -34,9 +36,10 @@ namespace AppTodo.Api.V1.Controllers
     [HttpGet]
     [ProducesResponseType(StatusCodes.Status200OK)]
     [ProducesResponseType(StatusCodes.Status400BadRequest)]
-    public async Task<object> GetAll([FromQuery] PersonViewModel viewmodel)
+    public async Task<object> GetAll()
     {
-      var result = await _todoRepository.GetAll(viewmodel.Name);
+      var user = User.Claims.FirstOrDefault(x => x.Type == "user_id")?.Value;
+      var result = await _todoRepository.GetAll(user);
       if (result is null)
         return BadRequest(result);
 
@@ -53,9 +56,11 @@ namespace AppTodo.Api.V1.Controllers
     [HttpGet]
     [ProducesResponseType(StatusCodes.Status200OK)]
     [ProducesResponseType(StatusCodes.Status400BadRequest)]
-    public async Task<ActionResult<TodoItem>> GetAllDone([FromQuery] PersonViewModel viewmodel)
+    public async Task<ActionResult<TodoItem>> GetAllDone()
     {
-      var result = await _todoRepository.GetAllDone(viewmodel.Name);
+      var user = User.Claims.FirstOrDefault(x => x.Type == "user_id")?.Value;
+
+      var result = await _todoRepository.GetAllDone(user);
       if (result is null)
         return BadRequest(result);
 
@@ -72,9 +77,11 @@ namespace AppTodo.Api.V1.Controllers
     [HttpGet]
     [ProducesResponseType(StatusCodes.Status200OK)]
     [ProducesResponseType(StatusCodes.Status400BadRequest)]
-    public async Task<ActionResult<TodoItem>> GetAllUndone([FromQuery] PersonViewModel viewmodel)
+    public async Task<ActionResult<TodoItem>> GetAllUndone()
     {
-      var result = await _todoRepository.GetAllUndone(viewmodel.Name);
+      var user = User.Claims.FirstOrDefault(x => x.Type == "user_id")?.Value;
+
+      var result = await _todoRepository.GetAllUndone(user);
       if (result is null)
         return BadRequest(result);
 
@@ -91,10 +98,13 @@ namespace AppTodo.Api.V1.Controllers
     [HttpGet]
     [ProducesResponseType(StatusCodes.Status200OK)]
     [ProducesResponseType(StatusCodes.Status400BadRequest)]
-    public async Task<ActionResult<TodoItem>> GetUndoneForToday([FromQuery] PersonViewModel viewmodel)
+    public async Task<ActionResult<TodoItem>> GetUndoneForToday()
     {
+
+      var user = User.Claims.FirstOrDefault(x => x.Type == "user_id")?.Value;
+
       var result = await _todoRepository.GetByPeriod(
-        viewmodel.Name,
+        user,
         DateTime.Now.Date,
         false
         );
@@ -116,10 +126,12 @@ namespace AppTodo.Api.V1.Controllers
     [HttpGet]
     [ProducesResponseType(StatusCodes.Status200OK)]
     [ProducesResponseType(StatusCodes.Status400BadRequest)]
-    public async Task<ActionResult<TodoItem>> GetDoneForToday([FromQuery] PersonViewModel viewmodel)
+    public async Task<ActionResult<TodoItem>> GetDoneForToday()
     {
+      var user = User.Claims.FirstOrDefault(x => x.Type == "user_id")?.Value;
+
       var result = await _todoRepository.GetByPeriod(
-        viewmodel.Name,
+        user,
         DateTime.Now.Date,
         true
         );
@@ -140,10 +152,13 @@ namespace AppTodo.Api.V1.Controllers
     [HttpGet]
     [ProducesResponseType(StatusCodes.Status200OK)]
     [ProducesResponseType(StatusCodes.Status400BadRequest)]
-    public async Task<ActionResult<TodoItem>> GetDoneForTomorrow([FromQuery] PersonViewModel viewmodel)
+    public async Task<ActionResult<TodoItem>> GetDoneForTomorrow()
     {
+
+      var user = User.Claims.FirstOrDefault(x => x.Type == "user_id")?.Value;
+
       var result = await _todoRepository.GetByPeriod(
-       viewmodel.Name,
+       user,
         DateTime.Now.Date.AddDays(1),
         true
         );
@@ -164,10 +179,12 @@ namespace AppTodo.Api.V1.Controllers
     [HttpGet]
     [ProducesResponseType(StatusCodes.Status200OK)]
     [ProducesResponseType(StatusCodes.Status400BadRequest)]
-    public async Task<ActionResult<TodoItem>> GetUndoneForTomorrow([FromQuery] PersonViewModel viewmodel)
+    public async Task<ActionResult<TodoItem>> GetUndoneForTomorrow()
     {
+      var user = User.Claims.FirstOrDefault(x => x.Type == "user_id")?.Value;
+
       var result = await _todoRepository.GetByPeriod(
-        viewmodel.Name,
+        user,
         DateTime.Now.Date.AddDays(1),
         false
         );
@@ -192,6 +209,9 @@ namespace AppTodo.Api.V1.Controllers
     [ProducesResponseType(StatusCodes.Status400BadRequest)]
     public async Task<ActionResult<TodoItem>> Create([FromBody] CreateTodoCommand command, [FromServices] IHandler<CreateTodoCommand> handler)
     {
+      var user = User.Claims.FirstOrDefault(x => x.Type == "user_id")?.Value;
+      command.User = user;
+
       var result = await handler.Handle(command) as GenericCommandResult;
 
       if (result is null)
@@ -214,6 +234,10 @@ namespace AppTodo.Api.V1.Controllers
     [ProducesResponseType(StatusCodes.Status400BadRequest)]
     public async Task<ActionResult<TodoItem>> Update([FromBody] UpdateTodoCommand command, [FromServices] IHandler<UpdateTodoCommand> handler)
     {
+
+      var user = User.Claims.FirstOrDefault(x => x.Type == "user_id")?.Value;
+      command.User = user;
+
       var result = await handler.Handle(command) as GenericCommandResult;
 
       if (result is null)
@@ -236,6 +260,9 @@ namespace AppTodo.Api.V1.Controllers
     [ProducesResponseType(StatusCodes.Status400BadRequest)]
     public async Task<ActionResult<TodoItem>> MarkAsDone([FromBody] MarkTodoAsDoneCommand command, [FromServices] IHandler<MarkTodoAsDoneCommand> handler)
     {
+      var user = User.Claims.FirstOrDefault(x => x.Type == "user_id")?.Value;
+      command.User = user;
+
       var result = await handler.Handle(command) as GenericCommandResult;
 
       if (result is null)
@@ -258,6 +285,9 @@ namespace AppTodo.Api.V1.Controllers
     [ProducesResponseType(StatusCodes.Status400BadRequest)]
     public async Task<ActionResult<TodoItem>> MarkAsUnDone([FromBody] MarkTodoAsUndoneCommand command, [FromServices] IHandler<MarkTodoAsUndoneCommand> handler)
     {
+      var user = User.Claims.FirstOrDefault(x => x.Type == "user_id")?.Value;
+      command.User = user;
+
       var result = await handler.Handle(command) as GenericCommandResult;
 
       if (result is null)
