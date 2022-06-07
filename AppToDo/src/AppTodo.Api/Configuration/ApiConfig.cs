@@ -75,7 +75,7 @@ namespace AppTodo.Api.Configuration
       app.UseRouting();
 
       //app.UseAuthentication();
-      //app.UseAuthorization();
+      app.UseAuthorization();
 
       app.UseStaticFiles();
 
