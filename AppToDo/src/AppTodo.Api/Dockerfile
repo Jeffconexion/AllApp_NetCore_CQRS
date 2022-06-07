@@ -1,4 +1,5 @@
-# ESTAGIO 1
+#See https://aka.ms/containerfastmode to understand how Visual Studio uses this Dockerfile to build your images for faster debugging.
+
 FROM mcr.microsoft.com/dotnet/aspnet:5.0 AS base
 WORKDIR /app
 EXPOSE 80
@@ -7,7 +8,7 @@ EXPOSE 80
 ENV ASPNETCORE_URLS=http://+:8000;http://+:80;
 ENV ASPNETCORE_ENVIRONMENT=Development
 
-# ESTAGIO 2
+
 FROM mcr.microsoft.com/dotnet/sdk:5.0 AS build
 WORKDIR /src
 COPY ["src/AppTodo.Api/AppTodo.Api.csproj", "src/AppTodo.Api/"]
@@ -19,11 +20,9 @@ COPY . .
 WORKDIR "/src/src/AppTodo.Api"
 RUN dotnet build "AppTodo.Api.csproj" -c Release -o /app/build
 
-# ESTAGIO 3
 FROM build AS publish
 RUN dotnet publish "AppTodo.Api.csproj" -c Release -o /app/publish
 
-# ESTAGIO 4
 FROM base AS final
 WORKDIR /app
 COPY --from=publish /app/publish .

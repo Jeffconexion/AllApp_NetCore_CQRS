@@ -1,7 +1,9 @@
 ﻿using AppTodo.Api.Configuration;
+using AppTodo.Infrastructure.Context;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Mvc.ApiExplorer;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 
@@ -24,7 +26,7 @@ namespace AppTodo.Api
 
     public void ConfigureServices(IServiceCollection services)
     {
-      services.AddDependencyInjectionDataBaseConfig();
+      services.AddDependencyInjectionDataBaseConfig(Configuration);
       services.AddApiConfig();
       services.AddSwaggerConfig();
       services.ResolveDependencies();
@@ -32,6 +34,15 @@ namespace AppTodo.Api
 
     public void Configure(IApplicationBuilder app, IWebHostEnvironment env, IApiVersionDescriptionProvider provider)
     {
+      using (var serviceScope = app.ApplicationServices.CreateScope())
+      {
+        var serviceDb = serviceScope.ServiceProvider
+                         .GetService<DataContext>();
+
+        serviceDb.Database.Migrate();
+      }
+
+
       app.UseApiConfig(env);
       app.UseSwaggerConfig(provider);
     }
