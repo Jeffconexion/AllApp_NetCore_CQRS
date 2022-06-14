@@ -12,9 +12,11 @@ namespace AppTodo.Api.Configuration
            IConfiguration configuration)
     {
 
+      //configuration context identity in ApplicationDbContext
       services.AddDbContext<ApplicationDbContext>(options =>
                 options.UseSqlServer(configuration.GetConnectionString("connectionString")));
 
+      // I add from fact the identity in aplication
       services.AddDefaultIdentity<IdentityUser>()
                 .AddRoles<IdentityRole>()
                 .AddEntityFrameworkStores<ApplicationDbContext>()
