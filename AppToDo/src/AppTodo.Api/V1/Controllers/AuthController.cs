@@ -19,9 +19,19 @@ namespace AppTodo.Api.V1.Controllers
       _usermanager = usermanager;
     }
 
+    
+    /// <summary>
+    /// Criar novo Usuário.   
+    /// </summary>
+    /// <param name="registerUser"></param>
+    /// <returns></returns>
     [HttpPost("nova-conta")]
     public async Task<ActionResult> Registrar(RegisterUserViewModel registerUser)
     {
+       //"email": "teste@gmail.com",
+       //"password": "Teste@123",
+       //"confirmPassword": "Teste@123"
+
       if (!ModelState.IsValid)
         return BadRequest(ModelState);
 
@@ -40,9 +50,15 @@ namespace AppTodo.Api.V1.Controllers
         return Ok(registerUser);
       }
 
-      return new BadRequestObjectResult(registerUser);
+      ModelState.AddModelError("Usuário já cadastrado", "Já existe um usuário cadastrado com email ou senha na base de dados." );
+      return new BadRequestObjectResult(ModelState);
     }
 
+    /// <summary>
+    /// Entrar com usuário criado.
+    /// </summary>
+    /// <param name="loginUser"></param>
+    /// <returns></returns>
     [HttpPost("entrar")]
     public async Task<ActionResult> Login(LoginUserviewModel loginUser)
     {
@@ -60,7 +76,7 @@ namespace AppTodo.Api.V1.Controllers
 
       if (result.IsLockedOut)
       {
-         ModelState.AddModelError("Usuário Bloqueado","Usuário temporariamente bloqueado por tentativas inválidas");
+        ModelState.AddModelError("Usuário Bloqueado", "Usuário temporariamente bloqueado por tentativas inválidas");
         return new BadRequestObjectResult(loginUser);
       }
 

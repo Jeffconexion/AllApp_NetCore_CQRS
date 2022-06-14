@@ -19,7 +19,6 @@ namespace AppTodo.Api.Configuration
         opt.UseSqlServer(configuration.GetConnectionString("connectionString"));
       });
 
-
       return services;
     }
 
