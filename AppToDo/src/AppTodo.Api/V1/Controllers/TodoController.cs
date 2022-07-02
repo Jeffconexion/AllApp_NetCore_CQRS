@@ -8,11 +8,13 @@ using AppTodo.Application.Commands.Handlers.CreateTodo;
 using AppTodo.Application.Commands.Handlers.MarkTodoAsDone;
 using AppTodo.Core.Entities;
 using AppTodo.Core.IRepositories;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
 namespace AppTodo.Api.V1.Controllers
 {
+  [Authorize]
   [ApiVersion("1.0")]
   [Route("api/v{version:apiVersion}/Todo")]
   public class TodoController : MainController

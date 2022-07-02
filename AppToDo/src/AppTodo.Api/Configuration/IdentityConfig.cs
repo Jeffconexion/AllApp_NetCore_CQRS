@@ -1,8 +1,12 @@
-﻿using AppTodo.Api.Data;
+﻿using System.Text;
+using AppTodo.Api.Data;
+using AppTodo.Api.Extensions;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using Microsoft.IdentityModel.Tokens;
 
 namespace AppTodo.Api.Configuration
 {
@@ -21,6 +25,36 @@ namespace AppTodo.Api.Configuration
                 .AddRoles<IdentityRole>()
                 .AddEntityFrameworkStores<ApplicationDbContext>()
                 .AddDefaultTokenProviders();
+
+      //Set two line to use data appsetings.
+      var appSettingsSection = configuration.GetSection("AppSettings");
+      services.Configure<AppSettings>(appSettingsSection);
+
+      //// Get Key and encode
+      var appSettings = appSettingsSection.Get<AppSettings>();
+      var key = Encoding.ASCII.GetBytes(appSettings.Secret);
+
+
+      // Add Authenthication
+      // Implementation JWT
+      services.AddAuthentication(x =>
+      {
+        x.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
+        x.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
+      }).AddJwtBearer(x =>
+      {
+        x.RequireHttpsMetadata = true; //required type https
+        x.SaveToken = true; //register token
+        x.TokenValidationParameters = new TokenValidationParameters
+        {
+          ValidateIssuerSigningKey = true,
+          IssuerSigningKey = new SymmetricSecurityKey(key),
+          ValidateIssuer = true,
+          ValidateAudience = true,
+          ValidAudience = appSettings.ValidIn,
+          ValidIssuer = appSettings.Issuer
+        };
+      });
 
       return services;
 
